@@ -1,3 +1,7 @@
+Android Projects
+=======
+
+
 Projects used on Android platform classes. 
 
 Each project references an specific class module. 
@@ -5,7 +9,10 @@ Each project references an specific class module.
 Enjoy. :)
 
 
-Copyright 2016 Diego Souza, Inc.
+License
+--------
+
+Copyright 2016 Diego Souza
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
