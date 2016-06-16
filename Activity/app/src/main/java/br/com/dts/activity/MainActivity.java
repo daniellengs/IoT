@@ -10,11 +10,10 @@ import android.widget.Button;
 public class MainActivity extends Activity {
 
     private Button mBtn01;
-    public static final String APP_LOG_TAG = "Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(APP_LOG_TAG, "OnCreate");
+        Log.v(Constants.APP_LOG_TAG, "OnCreate");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -26,7 +25,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Tela2.class);
                 //Essa linha adiciona um parametro extra na intent
-                //intent.putExtra("EXTRA01", 1);
+                //intent.putExtra(Constants.EXTRA_01, 1);
                 startActivity(intent);
             }
         });
@@ -34,19 +33,19 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        Log.v(APP_LOG_TAG, "OnResume");
+        Log.v(Constants.APP_LOG_TAG, "OnResume");
         super.onResume();
     }
 
     @Override
     protected void onStop() {
-        Log.v(APP_LOG_TAG, "OnStop");
+        Log.v(Constants.APP_LOG_TAG, "OnStop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.v(APP_LOG_TAG, "OnDestroy");
+        Log.v(Constants.APP_LOG_TAG, "OnDestroy");
         super.onDestroy();
     }
 }
