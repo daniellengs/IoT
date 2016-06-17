@@ -50,8 +50,8 @@ public class MainActivity extends ListActivity {
                 mIntent.setPackage("com.whatsapp");
                 break;
             case 3:
-                Uri gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988");
-                mIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                Uri mapUri = Uri.parse("geo:0,0?q=37.423156,-122.084917 (" + "Local" + ")");
+                mIntent = new Intent(Intent.ACTION_VIEW, mapUri);
                 mIntent.setPackage("com.google.android.apps.maps");
                 break;
             case 4:
