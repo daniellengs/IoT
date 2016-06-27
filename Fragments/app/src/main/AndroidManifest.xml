@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.dts.intentfilter">
+    package="br.com.dts.fragments">
 
     <application
         android:allowBackup="true"
@@ -14,19 +14,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".FilterActivity">
-          <intent-filter>
-              <action android:name="br.com.dts.intentfilter.View"
-                  />
-              <category android:name="br.com.dts.intentfilter.filter"></category>
-          </intent-filter>
-
-        </activity>
-
-        <activity android:name=".ProtectedActivity"
-            android:exported="false">
-
         </activity>
     </application>
 
