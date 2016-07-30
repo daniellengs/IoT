@@ -16,7 +16,7 @@ import android.widget.SimpleCursorAdapter;
 
 public class MainActivity extends ListActivity {
 
-    private final String options [] = {"Abir Browser", "Fazer ligação", "Msg. Whatsapp", "Abrir mapa em localicação", "Tirar foto", "Abrir galeria", "Sair" };
+    private final String options [] = {"Abir Browser", "Fazer ligação", "Msg. Whatsapp", "Abrir mapa em localicação", "Tirar foto", "Abrir galeria", "Outra App", "Sair" };
     private static final String sURL = "http://developer.android.com";
     private static final String sMESSAGE = "Olá, estou em aula";
     private static final String sPHONE = "99998888";
@@ -71,7 +71,17 @@ public class MainActivity extends ListActivity {
                 mIntent.setType("image/*");
                 mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(mIntent);
+
                 break;
+
+            case 6:
+                mIntent = new Intent();
+                mIntent.setAction("br.com.dts.intentfilter.View");
+                mIntent.addCategory("br.com.dts.intentfilter.filter");
+                startActivity(mIntent);
+                break;
+
+
             default:
                 finish();
                 break;

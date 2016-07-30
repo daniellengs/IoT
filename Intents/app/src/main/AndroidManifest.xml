@@ -3,6 +3,7 @@
     package="br.com.dts.intents">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.intent.action.CALL" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application

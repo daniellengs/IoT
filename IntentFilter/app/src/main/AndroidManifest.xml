@@ -17,8 +17,8 @@
         </activity>
         <activity android:name=".FilterActivity">
           <intent-filter>
-              <action android:name="br.com.dts.intentfilter.View"
-                  />
+              <action android:name="br.com.dts.intentfilter.View" />
+              <category android:name="android.intent.category.DEFAULT"/>
               <category android:name="br.com.dts.intentfilter.filter"></category>
           </intent-filter>
 
