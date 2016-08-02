@@ -18,10 +18,16 @@
 
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:id="@+id/txt_place_details"/>
+
+    <com.google.android.gms.maps.MapView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:apiKey="AIzaSyBKPmeFyyQQ6jYjZKpvqx95LmvsPv-M0Og"
+        android:id="@+id/mapview"></com.google.android.gms.maps.MapView>
 
     <Button
         android:layout_width="match_parent"
