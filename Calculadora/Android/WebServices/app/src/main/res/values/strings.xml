@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">WebServices</string>
+    <string name="dialog_wait_title">Aguarde...</string>
+    <string name="dialog_wait_message">Carregando informações.</string>
+    <string name="connection_exception">Erro ao conectar ao servidor. Tente novamente mais tarde.</string>
+
+    <string name="list_header_text">Lugares</string>
+
+    <plurals name="list_header_plural">
+        <item quantity="one">1 lugar</item>
+        <item quantity="other">%d lugares</item>
+    </plurals>
+
+    <string name="list_empty_text">Nenhum Lugar encontrado</string>
+    <string name="btn_rouyte_text">Traçar rota</string>
+</resources>
