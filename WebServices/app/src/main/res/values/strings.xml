@@ -13,4 +13,6 @@
 
     <string name="list_empty_text">Nenhum Lugar encontrado</string>
     <string name="btn_rouyte_text">Traçar rota</string>
+
+    <string name="action_route">Traçar rota</string>
 </resources>
