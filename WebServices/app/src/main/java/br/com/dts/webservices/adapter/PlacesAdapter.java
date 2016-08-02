@@ -8,11 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import br.com.dts.webservices.R;
 import br.com.dts.webservices.model.Place;
-import br.com.dts.webservices.model.PlaceGeosonList;
 
 /**
  * Created by diegosouza on 8/2/16.

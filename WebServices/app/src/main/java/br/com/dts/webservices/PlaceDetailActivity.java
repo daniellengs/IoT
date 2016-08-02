@@ -1,22 +1,19 @@
 package br.com.dts.webservices;
 
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -24,9 +21,9 @@ import br.com.dts.webservices.model.Place;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     private TextView mTextName;
     private TextView mTextDetail;
-    private MapFragment mMapView;
 
     private GoogleMap mMap;
 
@@ -42,7 +39,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
         mTextName = (TextView) findViewById(R.id.txt_place_name);
         mTextDetail = (TextView) findViewById(R.id.txt_place_details);
 
-        setupMap();
+        checkPermissions();
+
 
         if (mPlace != null){
             mTextName.setText(mPlace.getProperties().getPTurist());
@@ -51,7 +49,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
     private void setupMap(){
-        //mMapView = (MapView) findViewById(R.id.mapview);
+
+
 
         mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.mapview)).getMap();
 
@@ -88,4 +87,48 @@ public class PlaceDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void checkPermissions(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.MAPS_RECEIVE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.MAPS_RECEIVE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.MAPS_RECEIVE},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setupMap();
+                } else {
+
+                }
+                return;
+            }
+        }
+    }
 }
