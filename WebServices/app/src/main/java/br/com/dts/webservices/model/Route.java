@@ -14,6 +14,9 @@ import java.util.List;
 
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Created by diegosouza on 8/3/16.
+ */
 public class Route {
 	private final List<LatLng> mPoints;
 	private String mPolyline;

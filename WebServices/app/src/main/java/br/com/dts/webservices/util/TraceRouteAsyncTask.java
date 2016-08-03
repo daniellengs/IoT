@@ -55,7 +55,7 @@ public class TraceRouteAsyncTask extends AsyncTask<Double, Void, Void> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		mDialog = ProgressDialog.show(mContext, "Aguarde", "Carregendo daods");
+		mDialog = ProgressDialog.show(mContext, "Aguarde", "Carregendo dados");
 	}
 
 	@Override

@@ -1,12 +1,8 @@
 package br.com.dts.webservices;
 
-import android.*;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -26,18 +22,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import br.com.dts.webservices.model.Place;
 import br.com.dts.webservices.util.TraceRouteAsyncTask;
 
+/**
+ * Created by diegosouza on 8/3/16.
+ */
 public class TraceRouteActivity extends FragmentActivity {
 
     private GoogleMap mMap;
 
     private TraceRouteAsyncTask mTraceRouteAsyncTask;
-    private final int DELAY_TIME = 20000; //20 seconds
+    private final int DELAY_TIME = 10 * 1000; //20 seconds
     public static final int ERROR_MESSAGE = -1;
 
     private Place mPlace;
@@ -50,7 +48,7 @@ public class TraceRouteActivity extends FragmentActivity {
                     Toast.makeText(TraceRouteActivity.this,
                             "Erro ao traçar rota",
                             Toast.LENGTH_LONG).show();
-                    //finish();
+                    finish();
                     break;
                 default:
                     break;
@@ -130,10 +128,6 @@ public class TraceRouteActivity extends FragmentActivity {
     }
 
     private void traceRouteFromMyLocation() {
-        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = service.getBestProvider(criteria, false);
-
 
         try {
             Location location = mMap.getMyLocation();
@@ -149,20 +143,18 @@ public class TraceRouteActivity extends FragmentActivity {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
                         Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]),  Double.parseDouble(mPlace.getGeometry().getCoordinates()[1])), 15.0f));
             } else {
-                Toast.makeText(this,
-                        "Localização não disponível",
-                        Toast.LENGTH_LONG).show();
+                //Localização não disponível. Usaremos uma ficticia
+
                 mTraceRouteAsyncTask = new TraceRouteAsyncTask(this, mMap, mHandler);
-                mTraceRouteAsyncTask.execute(-8.058299,
-                        -34.871961,
-                        -8.036903,
-                        -34.904757);
+                mTraceRouteAsyncTask.execute(-8.058299, //cesar
+                        -34.871961, //cesar
+                        -8.036903, // jaqueira
+                        -34.904757); //jaqueira
 
                 notifyHandler();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
                         -8.036903,  -34.904757), 15.0f));
-                //finish();
             }
         } catch (SecurityException e) {
             checkPermission();
