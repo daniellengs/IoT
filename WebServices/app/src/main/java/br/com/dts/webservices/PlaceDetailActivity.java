@@ -1,10 +1,10 @@
 package br.com.dts.webservices;
 
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,9 +19,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import br.com.dts.webservices.model.Place;
 
+/**
+ * Created by diegosouza on 8/3/16.
+ */
+
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_MAP = 1;
     private TextView mTextName;
     private TextView mTextDetail;
 
@@ -39,7 +43,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         mTextName = (TextView) findViewById(R.id.txt_place_name);
         mTextDetail = (TextView) findViewById(R.id.txt_place_details);
 
-        checkPermissions();
+        checkPermission();
 
 
         if (mPlace != null){
@@ -87,31 +91,26 @@ public class PlaceDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkPermissions(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.MAPS_RECEIVE)
-                != PackageManager.PERMISSION_GRANTED) {
+    private void requestPermissions(){
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.MAPS_RECEIVE)) {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.MAPS_RECEIVE},
+                MY_PERMISSIONS_REQUEST_ACCESS_MAP);
 
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
 
+
+    }
+
+    private void checkPermission() {
+        if(Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.MAPS_RECEIVE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                setupMap();
             } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.MAPS_RECEIVE},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_ACCESS_MAP);
             }
+        } else {
+            setupMap();
         }
     }
 
@@ -119,8 +118,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
+            case MY_PERMISSIONS_REQUEST_ACCESS_MAP: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setupMap();

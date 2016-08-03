@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+/**
+ * Created by diegosouza on 8/3/16.
+ */
+
 public class SplashActivity extends AppCompatActivity {
 
     private ImageView mImageView;

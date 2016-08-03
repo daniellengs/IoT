@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:drawableTop="@drawable/icon"
         android:text="@string/list_empty_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
         android:id="@android:id/empty"/>
 </FrameLayout>

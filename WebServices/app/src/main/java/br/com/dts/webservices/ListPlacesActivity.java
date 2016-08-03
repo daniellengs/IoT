@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +24,12 @@ import java.net.URL;
 import br.com.dts.webservices.adapter.PlacesAdapter;
 import br.com.dts.webservices.model.Place;
 import br.com.dts.webservices.model.PlaceGeosonList;
+import br.com.dts.webservices.util.LogWrapper;
+import br.com.dts.webservices.util.Utils;
+
+/**
+ * Created by diegosouza on 8/3/16.
+ */
 
 public class ListPlacesActivity extends AppCompatActivity {
 
@@ -35,7 +40,6 @@ public class ListPlacesActivity extends AppCompatActivity {
     public static final String EXTRA_PLACE = "place";
 
     //Json from dados.recife.pe.gov.br (Last update on Aug 2, 2016)
-    private static final String sURL = "http://dados.recife.pe.gov.br/storage/f/2013-08-23T20%3A11%3A57.120Z/pontosturisticosciclfxs.geojson";
 
     private ListView mListPlaces;
 
@@ -62,7 +66,7 @@ public class ListPlacesActivity extends AppCompatActivity {
 
             PlaceGeosonList places;
 
-            URL url = new URL(sURL);
+            URL url = new URL(Utils.sURL);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10 * 1000);
@@ -80,8 +84,8 @@ public class ListPlacesActivity extends AppCompatActivity {
                 mPlacles = places.getFeatures();
 
             } else {
-                //TODO: Show HTTP error correctly
-                Log.v("DIEGO", "Erro HTTP");
+                LogWrapper.log("Erro HTTP " + connection.getResponseCode());
+                Snackbar.make(mListPlaces, getString(R.string.connection_exception), Snackbar.LENGTH_LONG).show();
             }
 
 
@@ -116,7 +120,7 @@ public class ListPlacesActivity extends AppCompatActivity {
     private void addListFooter() {
         final int PADDING = 10;
         TextView txtHeader = new TextView(this);
-        txtHeader.setBackgroundColor(Color.GRAY);
+        txtHeader.setBackgroundColor(Color.BLUE);
         txtHeader.setTextColor(Color.WHITE);
         txtHeader.setText(R.string.list_header_text);
         txtHeader.setPadding(PADDING, PADDING, 0, PADDING);
@@ -131,8 +135,8 @@ public class ListPlacesActivity extends AppCompatActivity {
                 R.plurals.list_header_plural,
                 mPlacesAdapter.getCount(),
                 mPlacesAdapter.getCount()));
-        txtFooter.setBackgroundColor(Color.LTGRAY);
-        txtFooter.setGravity(Gravity.RIGHT);
+        txtFooter.setBackgroundColor(Color.BLUE);
+        txtFooter.setGravity(Gravity.LEFT);
         txtFooter.setPadding(0, PADDING, PADDING, PADDING);
         mListPlaces.addFooterView(txtFooter);
 
@@ -145,6 +149,7 @@ public class ListPlacesActivity extends AppCompatActivity {
             //Show progress while downloading data
             mProgress = new ProgressDialog(ListPlacesActivity.this);
             mProgress.setTitle(R.string.dialog_wait_title);
+            mProgress.setIcon(getDrawable(R.drawable.icon));
             mProgress.setMessage(getString(R.string.dialog_wait_message));
             mProgress.show();
 
@@ -162,7 +167,6 @@ public class ListPlacesActivity extends AppCompatActivity {
             //Dismiss project and setup List Adapter
             if (mProgress != null && mProgress.isShowing()) {
                 try {
-
                     mProgress.dismiss();
                 } catch (Exception e) {
 
