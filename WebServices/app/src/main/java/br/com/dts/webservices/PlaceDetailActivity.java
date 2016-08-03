@@ -1,5 +1,6 @@
 package br.com.dts.webservices;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +26,9 @@ import br.com.dts.webservices.model.Place;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_MAP = 1;
+    public static final int MY_PERMISSIONS_REQUEST_ACCESS_MAP = 1;
+
+    public static final String EXTRA_PLACE_ROUTE = "place_route";
     private TextView mTextName;
     private TextView mTextDetail;
 
@@ -85,21 +88,15 @@ public class PlaceDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_route:
+                Intent intent = new Intent(this, TraceRouteActivity.class);
+                intent.putExtra(EXTRA_PLACE_ROUTE, mPlace);
+                startActivity(intent);
 
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestPermissions(){
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.MAPS_RECEIVE},
-                MY_PERMISSIONS_REQUEST_ACCESS_MAP);
-
-
-
-    }
 
     private void checkPermission() {
         if(Build.VERSION.SDK_INT >= 23) {
@@ -129,4 +126,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

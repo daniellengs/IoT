@@ -1,0 +1,137 @@
+/** 
+* COPYRIGHT (c) 2013, MOTOROLA. ALL RIGHTS RESERVED
+* 
+* REVISION HISTORY
+*
+* DATA          CORE ID       CR NUMBER      COMMENTS
+* ============================================================
+* 12/06/2013    BWCH73        47545         Initial creation
+*/
+
+/*
+ * Copyright (C) 2012 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package br.com.dts.webservices.util;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import br.com.dts.webservices.model.Route;
+
+public class GoogleMapsParser {
+
+	protected URL feedUrl;
+
+	public GoogleMapsParser(String feedUrl) {
+		try {
+			this.feedUrl = new URL(feedUrl);
+		} catch (MalformedURLException e) {
+		}
+	}
+
+	public Route parse() {
+		final Route route = new Route();
+		try {
+			final String result = convertStreamToString(feedUrl
+					.openConnection().getInputStream());
+
+			JSONObject json = new JSONObject(result);
+			JSONObject jsonRoute = json.getJSONArray("routes").getJSONObject(0);
+			JSONObject leg = jsonRoute.getJSONArray("legs").getJSONObject(0);
+
+			JSONArray steps = leg.getJSONArray("steps");
+
+			final int numSteps = steps.length();
+
+			JSONObject step;
+			for (int i = 0; i < numSteps; i++) {
+				step = steps.getJSONObject(i);
+				route.addPoints(decodePolyLine(step.getJSONObject("polyline")
+						.getString("points")));
+			}
+		} catch (Exception e) {
+		}
+		return route;
+	}
+
+	private String convertStreamToString(final InputStream input) {
+
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(
+				input));
+		final StringBuilder sBuf = new StringBuilder();
+
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				sBuf.append(line);
+			}
+		} catch (IOException e) {
+		} finally {
+			try {
+				input.close();
+			} catch (IOException e) {
+			}
+		}
+		return sBuf.toString();
+	}
+
+	private List<LatLng> decodePolyLine(final String poly) {
+		int len = poly.length();
+		int index = 0;
+		List<LatLng> decoded = new ArrayList<LatLng>();
+
+		int lat = 0;
+		int lng = 0;
+
+		while (index < len) {
+			int b;
+			int shift = 0;
+			int result = 0;
+			do {
+				b = poly.charAt(index++) - 63;
+				result |= (b & 0x1f) << shift;
+				shift += 5;
+			} while (b >= 0x20);
+			int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+			lat += dlat;
+
+			shift = 0;
+			result = 0;
+			do {
+				b = poly.charAt(index++) - 63;
+				result |= (b & 0x1f) << shift;
+				shift += 5;
+			} while (b >= 0x20);
+
+			int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+			lng += dlng;
+
+			decoded.add(new LatLng((float) (lat / 1E5), (float) (lng / 1E5)));
+		}
+		return decoded;
+	}
+}

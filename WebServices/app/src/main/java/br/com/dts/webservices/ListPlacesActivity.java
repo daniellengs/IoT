@@ -31,6 +31,7 @@ import br.com.dts.webservices.util.Utils;
  * Created by diegosouza on 8/3/16.
  */
 
+
 public class ListPlacesActivity extends AppCompatActivity {
 
     private Gson mGson;
