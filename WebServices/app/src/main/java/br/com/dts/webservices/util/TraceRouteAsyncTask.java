@@ -1,12 +1,3 @@
-/** 
-* COPYRIGHT (c) 2013, MOTOROLA. ALL RIGHTS RESERVED
-* 
-* REVISION HISTORY
-*
-* DATA          CORE ID       CR NUMBER      COMMENTS
-* ============================================================
-* 12/06/2013    BWCH73        47545         Initial creation
-*/
 package br.com.dts.webservices.util;
 
 import java.util.Locale;
