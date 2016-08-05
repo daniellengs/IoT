@@ -11,6 +11,10 @@ import java.util.List;
 
 import br.com.dts.fragments.Repository.CarRepository;
 
+
+/**
+ * Created by diegosouza on 7/28/16.
+ */
 public class ListCarFragment extends ListFragment {
 
     private List<Car> mCarList;

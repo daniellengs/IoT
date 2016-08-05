@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by diegosouza on 7/28/16.
  */
 public class CarDetailFragment extends Fragment {
 
@@ -29,7 +29,7 @@ public class CarDetailFragment extends Fragment {
 
     public static CarDetailFragment newInstance(Car car){
         Bundle params = new Bundle();
-        params.putSerializable("car", car);
+        params.putSerializable(CarDetailActivity.CAR_TAG, car);
 
         CarDetailFragment carDetailFragment = new CarDetailFragment();
         carDetailFragment.setArguments(params);

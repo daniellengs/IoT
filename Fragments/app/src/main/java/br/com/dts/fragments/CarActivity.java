@@ -11,6 +11,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
 
+/**
+ * Created by diegosouza on 7/28/16.
+ */
 public class CarActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
@@ -22,8 +25,6 @@ public class CarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        Log.v("Diego", "istablet " + isTablet());
         mFragmentManager = getSupportFragmentManager();
 
         mListCarFragment = (ListCarFragment) mFragmentManager.findFragmentById(R.id.fragment_car_list);
@@ -32,7 +33,7 @@ public class CarActivity extends AppCompatActivity {
         mBtnAddCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Add car here
+
             }
         });
 
@@ -50,7 +51,7 @@ public class CarActivity extends AppCompatActivity {
                 } else {
 
                     Intent it = new Intent(CarActivity.this, CarDetailActivity.class);
-                    it.putExtra("car", car);
+                    it.putExtra(CarDetailActivity.CAR_TAG, car);
                     startActivity(it);
 
                 }
