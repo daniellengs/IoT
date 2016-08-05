@@ -5,7 +5,7 @@ import br.com.dts.fragments.Car;
 /**
  * Created by diegosouza on 7/28/16.
  */
-public interface OnListFragmentInteractionListener {
+public interface OnCarSelectedListener {
 
-    void onListFragmentInteraction(Car car);
+    void onCarSelected(Car car);
 }

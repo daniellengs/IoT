@@ -17,13 +17,4 @@ public class SampleIntentService extends IntentService {
         }
     }
 
-
-    private void handleActionFoo(String param1, String param2) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-
-    private void handleActionBaz(String param1, String param2) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

@@ -6,11 +6,11 @@ import java.io.Serializable;
  * Created by diegosouza on 7/28/16.
  */
 public class Car implements Serializable{
-    String marca;
-    String modelo;
-    String placa;
-    String cor;
-    int ano;
+    public String marca;
+    public String modelo;
+    public String placa;
+    public String cor;
+    public int ano;
 
     public Car(String marca, String modelo, String placa, String cor, int ano) {
         this.marca = marca;
@@ -22,5 +22,10 @@ public class Car implements Serializable{
 
     public Car(){
         
+    }
+
+    @Override
+    public String toString() {
+        return modelo;
     }
 }
