@@ -64,8 +64,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.setMyLocationEnabled(true);
 
-        double latitude = Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]);
-        double longitude = Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]);
+        double latitude = Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]);
+        double longitude = Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]);
 
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))

@@ -135,13 +135,13 @@ public class TraceRouteActivity extends FragmentActivity {
                 mTraceRouteAsyncTask = new TraceRouteAsyncTask(this, mMap, mHandler);
                 mTraceRouteAsyncTask.execute(location.getLatitude(),
                         location.getLongitude(),
-                        Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]),
-                                Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]));
+                        Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]),
+                                Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]));
 
                 notifyHandler();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-                        Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]),  Double.parseDouble(mPlace.getGeometry().getCoordinates()[1])), 15.0f));
+                        Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]),  Double.parseDouble(mPlace.getGeometry().getCoordinates()[0])), 15.0f));
             } else {
                 //Localização não disponível. Usaremos uma ficticia
 
