@@ -6,9 +6,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
@@ -18,11 +16,11 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int SIMPLE_NOTIFICATION_ID = 10001;
-    private static final int BIG_NOTIFICATION_ID = 10002;
+    public static final int SIMPLE_NOTIFICATION_ID = 10001;
+    public static final int BIG_NOTIFICATION_ID = 10002;
     private NotificationManager mNotificationManager;
 
-    public static final String NOTIFICATION_TYPE_TAG = "isBigNotification";
+    public static final String IS_BIG_NOTIFICATION = "isBigNotification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         .setContentText("Clique para saber mais...");
 
         Intent resultIntent = new Intent(this, NotificationActivity.class);
-        resultIntent.putExtra(NOTIFICATION_TYPE_TAG,  false);
+        resultIntent.putExtra(IS_BIG_NOTIFICATION,  false);
 
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         // Issue the notification here.
         Intent resultIntent = new Intent(this, NotificationActivity.class);
 
-        resultIntent.putExtra(NOTIFICATION_TYPE_TAG,  true);
+        resultIntent.putExtra(IS_BIG_NOTIFICATION,  true);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         // Adds the back stack for the Intent (but not the Intent itself)
