@@ -12,8 +12,8 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent.getAction().equals(MainActivity.BROADCAST_ACTION)) {
-            Toast.makeText(context, "Broadcast funcionou", Toast.LENGTH_LONG).show();
-        }
+       // if (intent.getAction().equals(MainActivity.BROADCAST_ACTION)) {
+            Toast.makeText(context, "Broadcast de sistemacfuncionou", Toast.LENGTH_LONG).show();
+      //  }
     }
 }
