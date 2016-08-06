@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -20,6 +21,8 @@ public class CarDetailFragment extends Fragment {
 
     private TextView mTxtMarca;
     private TextView mTxtModelo;
+
+    Button mBtn;
 
     public static final String DETAIL_TAG = "CAR_DETAIL_FRAGMENT";
 

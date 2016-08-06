@@ -10,15 +10,18 @@ import android.support.design.widget.FloatingActionButton;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * Created by diegosouza on 7/28/16.
  */
-public class CarActivity extends AppCompatActivity {
+public class CarActivity extends AppCompatActivity implements OnCarSelectedListener{
 
     private FragmentManager mFragmentManager;
     private ListCarFragment mListCarFragment;
     private FloatingActionButton mBtnAddCar;
+
+    private Button mBtnTeste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class CarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mFragmentManager = getSupportFragmentManager();
+
 
         mListCarFragment = (ListCarFragment) mFragmentManager.findFragmentById(R.id.fragment_car_list);
 
@@ -37,32 +41,55 @@ public class CarActivity extends AppCompatActivity {
             }
         });
 
-        mListCarFragment.setOnCarSelectedListener(new OnCarSelectedListener() {
 
-            @Override
-            public void onCarSelected(Car car) {
+//        mListCarFragment.setOnCarSelectedListener(new OnCarSelectedListener() {
+//
+//            @Override
+//            public void onCarSelected(Car car) {
+//
+//                if (isTablet()){
+//                    CarDetailFragment fragment = CarDetailFragment.newInstance(car);
+//                    FragmentTransaction ft = mFragmentManager.beginTransaction();
+//                    ft.replace(R.id.frame_car_detail, fragment, CarDetailFragment.DETAIL_TAG );
+//                    ft.commit();
+//
+//                } else {
+//
+//                    Intent it = new Intent(CarActivity.this, CarDetailActivity.class);
+//                    it.putExtra(CarDetailActivity.CAR_TAG, car);
+//                    startActivity(it);
+//
+//                }
+//
+//            }
+//        });
 
-                if (isTablet()){
-                    CarDetailFragment fragment = CarDetailFragment.newInstance(car);
-                    FragmentTransaction ft = mFragmentManager.beginTransaction();
-                    ft.replace(R.id.frame_car_detail, fragment, CarDetailFragment.DETAIL_TAG );
-                    ft.commit();
-
-                } else {
-
-                    Intent it = new Intent(CarActivity.this, CarDetailActivity.class);
-                    it.putExtra(CarDetailActivity.CAR_TAG, car);
-                    startActivity(it);
-
-                }
-
-            }
-        });
+        mListCarFragment.setOnCarSelectedListener(this);
 
 
     }
 
     private boolean isTablet(){
+
         return getResources().getBoolean(R.bool.tablet);
+    }
+
+
+    @Override
+    public void onCarSelected(Car car) {
+        if (isTablet()){
+            CarDetailFragment fragment = CarDetailFragment.newInstance(car);
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.replace(R.id.frame_car_detail, fragment, CarDetailFragment.DETAIL_TAG );
+            ft.commit();
+
+        } else {
+
+            Intent it = new Intent(CarActivity.this, CarDetailActivity.class);
+            it.putExtra(CarDetailActivity.CAR_TAG, car);
+            startActivity(it);
+
+        }
+
     }
 }

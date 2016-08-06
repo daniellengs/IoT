@@ -6,6 +6,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int SIMPLE_NOTIFICATION_ID = 10001;
     private static final int BIG_NOTIFICATION_ID = 10002;
     private NotificationManager mNotificationManager;
+
+    public static final String NOTIFICATION_TYPE_TAG = "isBigNotification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         .setContentText("Clique para saber mais...");
 
         Intent resultIntent = new Intent(this, NotificationActivity.class);
+        resultIntent.putExtra(NOTIFICATION_TYPE_TAG,  false);
 
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         // Issue the notification here.
         Intent resultIntent = new Intent(this, NotificationActivity.class);
 
+        resultIntent.putExtra(NOTIFICATION_TYPE_TAG,  true);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         // Adds the back stack for the Intent (but not the Intent itself)
@@ -108,5 +113,22 @@ public class MainActivity extends AppCompatActivity {
 
         mNotificationManager.notify(BIG_NOTIFICATION_ID, mBuilder.build());
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0,1,0,"Simple");
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case 1:
+                createSimpleNotification();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
