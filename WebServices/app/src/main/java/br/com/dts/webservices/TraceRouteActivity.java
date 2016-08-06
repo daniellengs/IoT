@@ -19,11 +19,14 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import br.com.dts.webservices.app.App;
 import br.com.dts.webservices.model.Place;
 import br.com.dts.webservices.util.TraceRouteAsyncTask;
 
@@ -72,7 +75,14 @@ public class TraceRouteActivity extends FragmentActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //client = new GoogleApiClient.Builder(this).addApi(LocationServices.API).build();
+        client = new GoogleApiClient
+                .Builder(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.PLACE_DETECTION_API)
+                //.addConnectionCallbacks(this)
+              //  .addOnConnectionFailedListener(this)
+                .build();
     }
 
     @Override
@@ -104,6 +114,7 @@ public class TraceRouteActivity extends FragmentActivity {
         if(Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                setUpMapIfNeeded();
                 traceRouteFromMyLocation();
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
@@ -130,31 +141,39 @@ public class TraceRouteActivity extends FragmentActivity {
     private void traceRouteFromMyLocation() {
 
         try {
-            Location location = mMap.getMyLocation();
+            Location location;
+
+            location = LocationServices.FusedLocationApi.getLastLocation(
+                    client);
+
+
+            double destinationLocationLatitude = (Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]));
+            double destinationLocationLongitude = (Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]));
+
             if (location != null) {
                 mTraceRouteAsyncTask = new TraceRouteAsyncTask(this, mMap, mHandler);
                 mTraceRouteAsyncTask.execute(location.getLatitude(),
                         location.getLongitude(),
-                        Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]),
-                                Double.parseDouble(mPlace.getGeometry().getCoordinates()[0]));
+                        destinationLocationLatitude,
+                                destinationLocationLongitude);
 
                 notifyHandler();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-                        Double.parseDouble(mPlace.getGeometry().getCoordinates()[1]),  Double.parseDouble(mPlace.getGeometry().getCoordinates()[0])), 15.0f));
+                        destinationLocationLatitude,  destinationLocationLongitude), 15.0f));
             } else {
                 //Localização não disponível. Usaremos uma ficticia
 
                 mTraceRouteAsyncTask = new TraceRouteAsyncTask(this, mMap, mHandler);
-                mTraceRouteAsyncTask.execute(-8.058299, //cesar
-                        -34.871961, //cesar
-                        -8.036903, // jaqueira
-                        -34.904757); //jaqueira
+                mTraceRouteAsyncTask.execute(-8.058299, //cesar lat
+                        -34.871961, //cesar long
+                        destinationLocationLatitude, // lat
+                        destinationLocationLongitude); //long
 
                 notifyHandler();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-                        -8.036903,  -34.904757), 15.0f));
+                        destinationLocationLatitude,  destinationLocationLongitude), 15.0f));
             }
         } catch (SecurityException e) {
             checkPermission();
@@ -165,10 +184,16 @@ public class TraceRouteActivity extends FragmentActivity {
 
 
     private void setUpMapIfNeeded() {
-        if (mMap == null) {
-            mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map_route)).getMap();
-            mMap.setMyLocationEnabled(true);
+        try{
+            if (mMap == null) {
+                mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map_route)).getMap();
+                mMap.setMyLocationEnabled(true);
+            }
+        } catch (SecurityException e) {
+            checkPermission();
+            //TODO: Show message
         }
+
     }
 
     @Override
@@ -177,18 +202,18 @@ public class TraceRouteActivity extends FragmentActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "TraceRoute Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://br.com.dts.webservices/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+       // client.connect();
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "TraceRoute Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app URL is correct.
+//                Uri.parse("android-app://br.com.dts.webservices/http/host/path")
+//        );
+       /// AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
@@ -197,17 +222,17 @@ public class TraceRouteActivity extends FragmentActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "TraceRoute Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://br.com.dts.webservices/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
+//        Action viewAction = Action.newAction(
+//                Action.TYPE_VIEW, // TODO: choose an action type.
+//                "TraceRoute Page", // TODO: Define a title for the content shown.
+//                // TODO: If you have web page content that matches this app activity's content,
+//                // make sure this auto-generated web page URL is correct.
+//                // Otherwise, set the URL to null.
+//                Uri.parse("http://host/path"),
+//                // TODO: Make sure this auto-generated app URL is correct.
+//                Uri.parse("android-app://br.com.dts.webservices/http/host/path")
+//        );
+//        AppIndex.AppIndexApi.end(client, viewAction);
+//        client.disconnect();
     }
 }
