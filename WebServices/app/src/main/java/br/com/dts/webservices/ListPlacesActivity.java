@@ -40,8 +40,6 @@ public class ListPlacesActivity extends AppCompatActivity {
 
     public static final String EXTRA_PLACE = "place";
 
-    //Json from dados.recife.pe.gov.br (Last update on Aug 2, 2016)
-
     private ListView mListPlaces;
 
     private Place[] mPlacles;

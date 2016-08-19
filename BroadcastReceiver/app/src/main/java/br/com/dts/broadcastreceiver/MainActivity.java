@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.icu.text.BreakIterator;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private InternalBroadcast mReceiver;
+    private Button mBtnLocalBroadcast;
     private Button mBtnBroadcast;
 
     public static final String BROADCAST_ACTION =
@@ -30,12 +30,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mBtnLocalBroadcast = (Button)findViewById(R.id.btn_broadcast_local);
         mBtnBroadcast = (Button)findViewById(R.id.btn_broadcast);
+
+        mBtnLocalBroadcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LocalBroadcastManager.getInstance(MainActivity.this)
+                        .sendBroadcast(new Intent(BROADCAST_ACTION));
+                //sendBroadcast(new Intent(BROADCAST_ACTION));
+            }
+        });
 
         mBtnBroadcast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendBroadcast(new Intent(BROADCAST_ACTION));
+                sendBroadcast(new Intent("br.com.dts.broadcastreceiver.BROADCAST_GENERAL"));
             }
         });
 
@@ -64,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Toast.makeText(context, "Broadcast funcionou", Toast.LENGTH_LONG).show();
             if (intent.getAction().equals(BROADCAST_ACTION)) {
                 Toast.makeText(context, "Broadcast funcionou", Toast.LENGTH_LONG).show();
             }

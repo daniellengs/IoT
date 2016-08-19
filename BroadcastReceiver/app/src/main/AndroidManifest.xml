@@ -23,7 +23,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="br.com.dts.broadcastreceiver.BROADCAST_ACTION"/>
+                <action android:name="br.com.dts.broadcastreceiver.BROADCAST_GENERAL"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
