@@ -33,8 +33,14 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        Log.v(Constants.APP_LOG_TAG, "OnResume");
+        Logger.v("OnResume");
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Logger.v("OnPause");
     }
 
     @Override
