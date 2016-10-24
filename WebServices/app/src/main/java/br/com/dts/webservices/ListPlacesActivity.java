@@ -53,7 +53,6 @@ public class ListPlacesActivity extends AppCompatActivity {
 
         mListPlaces = (ListView) findViewById(R.id.list_places);
         mListPlaces.setEmptyView(findViewById(android.R.id.empty));
-
         //loadData();
 
         //Call AsyncTask to download json Data
