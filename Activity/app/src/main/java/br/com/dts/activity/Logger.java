@@ -12,7 +12,8 @@ public final class Logger {
     }
 
     public static void v(String message){
-
-        Log.v(Constants.APP_LOG_TAG, message);
+         if (BuildConfig.DEBUG) {
+             Log.v(Constants.APP_LOG_TAG, message);
+         }
     }
 }

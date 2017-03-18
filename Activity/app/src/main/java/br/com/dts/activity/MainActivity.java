@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener{
 
     private Button mBtn01;
 
@@ -25,10 +25,11 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Tela2.class);
                 //Essa linha adiciona um parametro extra na intent
-                //intent.putExtra(Constants.EXTRA_01, 1);
+                intent.putExtra(Constants.EXTRA_01, 1);
                 startActivity(intent);
             }
         });
+        mBtn01.setOnClickListener(this);
     }
 
     @Override
@@ -41,17 +42,26 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
         Logger.v("OnPause");
+
     }
 
     @Override
     protected void onStop() {
-        Log.v(Constants.APP_LOG_TAG, "OnStop");
+        Logger.v("OnStop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.v(Constants.APP_LOG_TAG, "OnDestroy");
+        Logger.v("OnDestroy");
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(this, Tela2.class);
+        //Essa linha adiciona um parametro extra na intent
+        //intent.putExtra(Constants.EXTRA_01, 1);
+        startActivity(intent);
     }
 }
