@@ -50,15 +50,14 @@ public class MainActivity extends ListActivity {
                 break;
 
             case 1:
-
                 int hasPhonePermission = checkSelfPermission(Manifest.permission.CALL_PHONE);
                 if (hasPhonePermission != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this,
                             new String[]{Manifest.permission.CALL_PHONE},
                             REQUEST_CALL_PERMISSION);
                 } else {
-                    mIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + sPHONE));
-                    startActivity(mIntent);
+                    //mIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + sPHONE));
+                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + sPHONE)));
                 }
                 break;
             case 2:

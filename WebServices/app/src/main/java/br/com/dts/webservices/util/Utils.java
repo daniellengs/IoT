@@ -11,7 +11,7 @@ import br.com.dts.webservices.app.App;
  */
 public final class Utils {
 
-    public static final String sURL = "http://dados.recife.pe.gov.br/storage/f/2013-08-23T20%3A11%3A57.120Z/pontosturisticosciclfxs.geojson";
+    public static final String sURL = "http://dados.recife.pe.gov.br/dataset/eeee4ac5-d0e0-490b-aac0-490a6de74e07/resource/8d05eb77-a83d-4e9b-b5b6-6c3bd71e736d/download/pontosturisticosciclfxs.geojson";
 
     private Utils(){
 

@@ -20,15 +20,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         mBtn01 = (Button) findViewById(R.id.btn01);
 
-        mBtn01.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Tela2.class);
-                //Essa linha adiciona um parametro extra na intent
-                intent.putExtra(Constants.EXTRA_01, 1);
-                startActivity(intent);
-            }
-        });
+//        mBtn01.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, Tela2.class);
+//                //Essa linha adiciona um parametro extra na intent
+//                intent.putExtra(Constants.EXTRA_01, 1);
+//                startActivity(intent);
+//            }
+//        });
         mBtn01.setOnClickListener(this);
     }
 
